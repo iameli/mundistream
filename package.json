@@ -1,0 +1,12 @@
+{
+  "name": "mundistream",
+  "version": "0.0.1",
+  "description": "manage streams and whatnot",
+  "main": "index.js",
+  "author": "iameli",
+  "license": "MIT",
+  "dependencies": {
+    "esm": "^3.2.25",
+    "obs-websocket-js": "^4.0.1"
+  }
+}
