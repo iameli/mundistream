@@ -6,7 +6,13 @@
   "author": "iameli",
   "license": "MIT",
   "dependencies": {
+    "@harmonyhub/client-ws": "^1.0.4",
+    "@harmonyhub/discover": "^1.0.8",
+    "@types/node": "^14.0.14",
     "esm": "^3.2.25",
-    "obs-websocket-js": "^4.0.1"
+    "fs-extra": "^9.0.1",
+    "obs-websocket-js": "^4.0.1",
+    "websocket": "^1.0.31",
+    "websocket-as-promised": "^1.0.1"
   }
 }
