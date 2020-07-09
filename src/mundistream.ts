@@ -1,5 +1,6 @@
 import { getHarmonyClient, HarmonyClient } from "@harmonyhub/client-ws";
 import { Explorer, HubData } from "@harmonyhub/discover";
+import "./server.ts";
 
 async function run(): Promise<void> {
   const explorer = new Explorer();
