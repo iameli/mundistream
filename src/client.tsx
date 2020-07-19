@@ -1,13 +1,30 @@
 // import * as test from "websocket";
 
+import ReactDOM from "react-dom";
+import React from "react";
+import App from "./client/app";
+
+console.log(React);
+window.React = React;
+
+ReactDOM.render(<App />, document.querySelector("main"));
+
 import WebSocketAsPromised from "websocket-as-promised";
 (async () => {
-  console.log("what");
-  const wsp = new WebSocketAsPromised("ws://localhost:8080", {});
-  await wsp.open();
-  wsp.send("message");
-  wsp.onMessage.addListener((foo) => console.log(`reply: ${foo}`));
-  // await wsp.close();
+  try {
+    console.log("hi");
+    const url = new URL(document.location.href);
+    url.protocol = "ws:";
+    url.port = "8080";
+    const wsp = new WebSocketAsPromised(url.toString(), {});
+    wsp.onError.addListener((err) => alert(err.message));
+    await wsp.open();
+    wsp.send("message");
+    wsp.onMessage.addListener((foo) => console.log(`replyy: ${foo}`));
+    // await wsp.close();
+  } catch (e) {
+    alert(e.message);
+  }
 
   // console.log(test);
 })();
