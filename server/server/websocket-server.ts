@@ -1,21 +1,25 @@
 #!/usr/bin/env node
-import { server as WebSocketServer } from "websocket";
+import { server as WebSocketServer, IServerConfig, IMessage } from "websocket";
 import * as http from "http";
 import { AddressInfo } from "net";
-const EE = require("events");
+import EE from "wolfy87-eventemitter";
+
+console.log(EE);
 
 export default class Server extends EE {
+  connected: number;
   constructor() {
     super();
     this.connected = 0;
-    var server = http.createServer(function (request, response) {
-      console.log(new Date() + " Received request for " + request.url);
+    const server = http.createServer(function (request, response) {
+      const url = request.url ?? "url not found";
+      console.log(`${Date.now()} Received request for ${url}`);
       response.writeHead(404);
       response.end();
     });
     server.listen(8080, function () {
       const info = <AddressInfo>server.address();
-      console.log(new Date() + " Server is listening on " + info.port);
+      console.log(`${new Date().toString()} is listening on ${info.port}`);
     });
 
     const wsServer = new WebSocketServer({
@@ -24,7 +28,7 @@ export default class Server extends EE {
     });
 
     wsServer.on("request", (request) => {
-      var connection = request.accept("", request.origin);
+      const connection = request.accept("", request.origin);
       const id = this.connected;
       this.connected += 1;
       console.log(`client ${id} connected`);
@@ -32,7 +36,8 @@ export default class Server extends EE {
       connection.on("message", function (message) {
         console.log("message");
         if (message.type === "utf8") {
-          console.log("Received Message: " + message.utf8Data);
+          const data = message.utf8Data ?? "";
+          console.log("Received Message: " + data);
           connection.sendUTF(message.utf8Data);
         } else if (message.type === "binary") {
           console.log(

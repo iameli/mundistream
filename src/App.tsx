@@ -48,7 +48,7 @@ export const App = () => {
     (async () => {
       try {
         console.log("hi");
-        const url = new URL("http://192.168.1.2:8080");
+        const url = new URL("http://10.9.168.95:8080");
         url.protocol = "ws:";
         url.port = "8080";
         const wsp = new WebSocketAsPromised(url.toString(), {});
@@ -58,7 +58,7 @@ export const App = () => {
         setText("sending message");
         wsp.send("message");
         wsp.onMessage.addListener((foo) => {
-          setText(`replyy: ${JSON.stringify(foo)} ${Date.now()}`);
+          setText(`reply: ${JSON.stringify(foo)} ${Date.now()}`);
         });
         // await wsp.close();
       } catch (e) {

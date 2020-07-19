@@ -23,7 +23,6 @@
     "jsx": "react",
     "lib": ["es5", "es2015", "dom"]
   },
-
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "server/**/*"],
   "exclude": ["node_modules"]
 }

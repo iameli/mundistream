@@ -1,0 +1,1 @@
+"use strict";exports.__esModule=true;var websocket_server_1=require("./server/websocket-server");var harmony_hub_1=require("./server/harmony-hub");new websocket_server_1["default"]();new harmony_hub_1["default"]();

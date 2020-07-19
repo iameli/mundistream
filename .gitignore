@@ -60,3 +60,4 @@ buck-out/
 # Web dist
 #
 dist-*
+dist-server
