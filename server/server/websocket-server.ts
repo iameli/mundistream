@@ -33,11 +33,13 @@ export default class Server extends EE {
       this.connected += 1;
       console.log(`client ${id} connected`);
 
-      connection.on("message", function (message) {
+      connection.on("message", (message) => {
         console.log("message");
         if (message.type === "utf8") {
           const data = message.utf8Data ?? "";
           console.log("Received Message: " + data);
+          const obj = JSON.parse(data);
+          this.emit("message", obj);
           connection.sendUTF(message.utf8Data);
         } else if (message.type === "binary") {
           console.log(

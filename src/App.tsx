@@ -24,8 +24,10 @@ const _styles = {
 
   name: RX.Styles.createTextStyle({
     fontWeight: "bold",
-    fontSize: 36,
-    color: "#42B74F",
+    fontSize: 96,
+    color: "#333333",
+    marginLeft: 100,
+    marginRight: 100,
   }),
 
   links: RX.Styles.createViewStyle({
@@ -42,6 +44,8 @@ const _styles = {
   }),
 };
 
+let client;
+
 export const App = () => {
   const [text, setText] = useState("start?");
   useEffect(() => {
@@ -56,10 +60,11 @@ export const App = () => {
         setText("opening websocket");
         await wsp.open();
         setText("sending message");
-        wsp.send("message");
+        wsp.send(JSON.stringify({ type: "hello" }));
         wsp.onMessage.addListener((foo) => {
           setText(`reply: ${JSON.stringify(foo)} ${Date.now()}`);
         });
+        client = wsp;
         // await wsp.close();
       } catch (e) {
         setText(e.message);
@@ -78,30 +83,22 @@ export const App = () => {
       </RX.View>
 
       <RX.View style={_styles.links}>
-        <RX.Link
-          url={"https://github.com/Microsoft/reactxp"}
-          style={_styles.link}
-        >
-          GitHub
-        </RX.Link>
-        <RX.Link
-          url={"https://microsoft.github.io/reactxp"}
-          style={_styles.link}
-        >
-          Docs
-        </RX.Link>
-        <RX.Link
-          url={"https://github.com/Microsoft/reactxp/tree/master/samples"}
-          style={_styles.link}
-        >
-          Samples
-        </RX.Link>
-        <RX.Link
-          url={"https://github.com/Microsoft/reactxp/tree/master/extensions"}
-          style={_styles.link}
-        >
-          Extensions
-        </RX.Link>
+        {[1, 2, 3, 4].map((x) => {
+          return (
+            <RX.Button
+              onPress={() => {
+                if (!client) {
+                  setText("not connected");
+                  return;
+                }
+                client.send(JSON.stringify({ type: "input", input: x }));
+              }}
+              key={x}
+            >
+              <RX.Text style={_styles.name}>{x}</RX.Text>
+            </RX.Button>
+          );
+        })}
       </RX.View>
     </RX.View>
   );

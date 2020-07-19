@@ -1,5 +1,10 @@
 import WS from "./server/websocket-server";
 import HH from "./server/harmony-hub";
 
-new WS();
-new HH();
+const ws = new WS();
+const hh = new HH();
+ws.on("message", (message) => {
+  if (message.type === "input") {
+    hh.switchInput(message.input);
+  }
+});

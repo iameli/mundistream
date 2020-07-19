@@ -3,6 +3,7 @@ import { Explorer, HubData } from "@harmonyhub/discover";
 const EE = require("wolfy87-eventemitter");
 
 export default class HarmonyHub extends EE {
+  hubConnections: Map<string, HarmonyClient>;
   constructor() {
     super();
 
@@ -11,6 +12,7 @@ export default class HarmonyHub extends EE {
       .then()
       .catch((e) => console.log(e));
   }
+
   async run(): Promise<void> {
     const explorer = new Explorer();
 
@@ -86,5 +88,20 @@ export default class HarmonyHub extends EE {
     }
 
     console.log(`connected to #${this.hubConnections.size} clients`);
+  }
+
+  async switchInput(input: string) {
+    console.log(`switching to ${input}`);
+    for (const hubClient of this.hubConnections.values()) {
+      await hubClient.send(
+        "holdAction",
+        JSON.stringify({
+          command: `InputB${input}`,
+          type: "IRCommand",
+          deviceId: "34350046",
+        }),
+        100
+      );
+    }
   }
 }
