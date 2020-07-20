@@ -1,6 +1,7 @@
 import { getHarmonyClient, HarmonyClient } from "@harmonyhub/client-ws";
 import { Explorer, HubData } from "@harmonyhub/discover";
 const EE = require("wolfy87-eventemitter");
+import * as fs from "fs-extra";
 
 export default class HarmonyHub extends EE {
   hubConnections: Map<string, HarmonyClient>;
@@ -57,18 +58,21 @@ export default class HarmonyHub extends EE {
       this.hubConnections.set(data.uuid, hubclient);
       const start = Date.now();
       try {
-        // await hubclient.send(
-        //   "holdAction",
-        //   JSON.stringify({
-        //     command: "InputB2",
-        //     type: "IRCommand",
-        //     deviceId: "34350046",
-        //   }),
-        //   100
-        // );
-        // console.log(
-        //   JSON.stringify(await hubclient.getAvailableCommands(), null, 2)
-        // );
+        await hubclient.send(
+          "holdAction",
+          JSON.stringify({
+            command: "InputB2",
+            type: "IRCommand",
+            deviceId: "34350046",
+          }),
+          100
+        );
+        const str = JSON.stringify(
+          await hubclient.getAvailableCommands(),
+          null,
+          2
+        );
+        await fs.writeFile("commands.json", str, "utf8");
         // console.log(`run time: ${Date.now() - start}`);
         // await hubclient.send(
         //   "holdAction",
@@ -88,6 +92,12 @@ export default class HarmonyHub extends EE {
     }
 
     console.log(`connected to #${this.hubConnections.size} clients`);
+  }
+
+  async command(input: any) {
+    for (const hubClient of this.hubConnections.values()) {
+      await hubClient.send("holdAction", JSON.stringify(input), 100);
+    }
   }
 
   async switchInput(input: string) {

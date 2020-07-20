@@ -4,7 +4,7 @@ import HH from "./server/harmony-hub";
 const ws = new WS();
 const hh = new HH();
 ws.on("message", (message) => {
-  if (message.type === "input") {
-    hh.switchInput(message.input);
+  if (message.command) {
+    hh.command(message);
   }
 });

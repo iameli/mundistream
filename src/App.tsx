@@ -46,6 +46,48 @@ const _styles = {
 
 let client;
 
+const rows = [
+  {
+    title: "Input Device",
+    buttons: ["1", "2", "3", "4"].map((x) => {
+      return {
+        text: x,
+        command: {
+          command: `Input${x}`,
+          type: "IRCommand",
+          deviceId: "70361789",
+        },
+      };
+    }),
+  },
+  {
+    title: "Capture Device",
+    buttons: ["1", "2", "3", "4"].map((x) => {
+      return {
+        text: x,
+        command: {
+          command: `InputA${x}`,
+          type: "IRCommand",
+          deviceId: "34350046",
+        },
+      };
+    }),
+  },
+  {
+    title: "Monitor Device",
+    buttons: ["1", "2", "3", "4"].map((x) => {
+      return {
+        text: x,
+        command: {
+          command: `InputB${x}`,
+          type: "IRCommand",
+          deviceId: "34350046",
+        },
+      };
+    }),
+  },
+];
+
 export const App = () => {
   const [text, setText] = useState("start?");
   useEffect(() => {
@@ -82,24 +124,27 @@ export const App = () => {
         </RX.Text>
       </RX.View>
 
-      <RX.View style={_styles.links}>
-        {[1, 2, 3, 4].map((x) => {
-          return (
-            <RX.Button
-              onPress={() => {
-                if (!client) {
-                  setText("not connected");
-                  return;
-                }
-                client.send(JSON.stringify({ type: "input", input: x }));
-              }}
-              key={x}
-            >
-              <RX.Text style={_styles.name}>{x}</RX.Text>
-            </RX.Button>
-          );
-        })}
-      </RX.View>
+      {rows.map(({ title, buttons }) => (
+        <RX.View key={title}>
+          <RX.Text>{title}</RX.Text>
+          <RX.View style={_styles.links}>
+            {buttons.map(({ text, command }, i) => (
+              <RX.Button
+                onPress={() => {
+                  if (!client) {
+                    setText("not connected");
+                    return;
+                  }
+                  client.send(JSON.stringify(command));
+                }}
+                key={i}
+              >
+                <RX.Text style={_styles.name}>{text}</RX.Text>
+              </RX.Button>
+            ))}
+          </RX.View>
+        </RX.View>
+      ))}
     </RX.View>
   );
 };
