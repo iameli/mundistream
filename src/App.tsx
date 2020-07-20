@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import RX from "reactxp";
 import WebSocketAsPromised from "websocket-as-promised";
+import Client from "./client";
 
 const _styles = {
   main: RX.Styles.createViewStyle({
@@ -90,31 +91,22 @@ const rows = [
 
 export const App = () => {
   const [text, setText] = useState("start?");
+  const [client, setClient] = useState(null);
   useEffect(() => {
-    (async () => {
-      try {
-        console.log("hi");
-        const url = new URL("http://10.9.168.95:8080");
-        url.protocol = "ws:";
-        url.port = "8080";
-        const wsp = new WebSocketAsPromised(url.toString(), {});
-        wsp.onError.addListener((err) => console.log(err));
-        setText("opening websocket");
-        await wsp.open();
-        setText("sending message");
-        wsp.send(JSON.stringify({ type: "hello" }));
-        wsp.onMessage.addListener((foo) => {
-          setText(`reply: ${JSON.stringify(foo)} ${Date.now()}`);
-        });
-        client = wsp;
-        // await wsp.close();
-      } catch (e) {
-        setText(e.message);
-      }
+    const client = new Client();
+    setClient(client);
+    client.on("log", (text) => setText(text));
+    client.on("message", (msg) => setText(msg));
 
-      // console.log(test);
-    })().catch((e) => console.log(e));
+    // console.log(test);
   }, []);
+  if (!client) {
+    return (
+      <RX.View>
+        <RX.Text>Loading...</RX.Text>
+      </RX.View>
+    );
+  }
   return (
     <RX.View style={_styles.main}>
       <RX.View>
@@ -135,7 +127,7 @@ export const App = () => {
                     setText("not connected");
                     return;
                   }
-                  client.send(JSON.stringify(command));
+                  client.send(command);
                 }}
                 key={i}
               >
