@@ -39,7 +39,7 @@ export default class Server extends EE {
           const data = message.utf8Data ?? "";
           console.log("Received Message: " + data);
           const obj = JSON.parse(data);
-          this.emit("message", obj);
+          this.emit("message", { message: obj, connection });
           connection.sendUTF(message.utf8Data);
         } else if (message.type === "binary") {
           console.log(

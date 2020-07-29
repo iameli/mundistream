@@ -20,15 +20,14 @@ const _styles = {
   label: RX.Styles.createTextStyle({
     marginTop: 10,
     textAlign: "center",
-    fontSize: 16,
+    fontSize: 24,
+    flexBasis: 150,
   }),
 
   name: RX.Styles.createTextStyle({
     fontWeight: "bold",
     fontSize: 96,
     color: "#333333",
-    marginLeft: 100,
-    marginRight: 100,
   }),
 
   links: RX.Styles.createViewStyle({
@@ -36,20 +35,33 @@ const _styles = {
     flexDirection: "row",
     alignItems: "center",
     marginTop: 10,
+    flexGrow: 1,
+    alignSelf: "stretch",
   }),
 
   link: RX.Styles.createLinkStyle({
     marginRight: 5,
     marginLeft: 5,
     color: "#0070E0",
+    flexGrow: 1,
+    backgroundColor: "#aaaaaa",
+    alignSelf: "stretch",
+    alignItems: "center",
+    justifyContent: "center",
   }),
+};
+
+const MACS = {
+  "1": "40:8d:5c:df:0c:b1",
+  "3": "b4:2e:99:e1:87:25",
+  "4": "98:9e:63:2b:f9:84",
 };
 
 let client;
 
 const rows = [
   {
-    title: "Input Device",
+    title: "Input",
     buttons: ["1", "2", "3", "4"].map((x) => {
       return {
         text: x,
@@ -62,7 +74,7 @@ const rows = [
     }),
   },
   {
-    title: "Capture Device",
+    title: "Capture",
     buttons: ["1", "2", "3", "4"].map((x) => {
       return {
         text: x,
@@ -75,7 +87,7 @@ const rows = [
     }),
   },
   {
-    title: "Monitor Device",
+    title: "Monitor",
     buttons: ["1", "2", "3", "4"].map((x) => {
       return {
         text: x,
@@ -87,7 +99,22 @@ const rows = [
       };
     }),
   },
+  {
+    title: "Wake",
+    buttons: ["1", "2", "3", "4"].map((x) => {
+      return {
+        text: x,
+        command: {
+          type: "WOL",
+          mac: MACS[x],
+        },
+      };
+    }),
+  },
 ];
+
+const newLines = `
+`;
 
 export const App = () => {
   const [text, setText] = useState("start?");
@@ -109,34 +136,30 @@ export const App = () => {
   }
   return (
     <RX.View style={_styles.main}>
-      <RX.View>
-        <RX.Text style={_styles.title}>{text}</RX.Text>
-        <RX.Text style={_styles.label}>
-          To get started, edit /src/App.tsx
-        </RX.Text>
-      </RX.View>
-
       {rows.map(({ title, buttons }) => (
-        <RX.View key={title}>
-          <RX.Text>{title}</RX.Text>
-          <RX.View style={_styles.links}>
-            {buttons.map(({ text, command }, i) => (
-              <RX.Button
-                onPress={() => {
-                  if (!client) {
-                    setText("not connected");
-                    return;
-                  }
-                  client.send(command);
-                }}
-                key={i}
-              >
-                <RX.Text style={_styles.name}>{text}</RX.Text>
-              </RX.Button>
-            ))}
-          </RX.View>
+        <RX.View style={_styles.links} key={title}>
+          <RX.Text style={_styles.label}>{title}</RX.Text>
+          {buttons.map(({ text, command }, i) => (
+            <RX.Button
+              style={_styles.link}
+              onPress={() => {
+                if (!client) {
+                  setText("not connected");
+                  return;
+                }
+                client.send(command);
+              }}
+              key={i}
+            >
+              <RX.Text style={_styles.name}>{text}</RX.Text>
+            </RX.Button>
+          ))}
         </RX.View>
       ))}
+      <RX.View style={_styles.links}>
+        <RX.Text style={_styles.title}>{text}</RX.Text>
+        <RX.Text style={_styles.title}>{newLines}</RX.Text>
+      </RX.View>
     </RX.View>
   );
 };
