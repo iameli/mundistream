@@ -4,8 +4,6 @@ import * as http from "http";
 import { AddressInfo } from "net";
 import EE from "wolfy87-eventemitter";
 
-console.log(EE);
-
 export default class Server extends EE {
   connected: number;
   constructor() {
@@ -17,7 +15,7 @@ export default class Server extends EE {
       response.writeHead(404);
       response.end();
     });
-    server.listen(8080, function () {
+    server.listen(1730, function () {
       const info = <AddressInfo>server.address();
       console.log(`${new Date().toString()} is listening on ${info.port}`);
     });

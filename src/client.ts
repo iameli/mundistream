@@ -31,7 +31,7 @@ export default class Client extends EE {
 
   async connect() {
     console.log("hi");
-    const url = new URL("http://10.9.168.95:8080");
+    const url = new URL("http://10.9.168.90:1730");
     url.protocol = "ws:";
     url.port = "8080";
     this.client = new WebSocketAsPromised(url.toString(), {});
