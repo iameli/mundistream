@@ -1,32 +1,14 @@
 // import Discord from "discord.js-selfbot-v13";
 import { useEffect, useState } from "react";
-import { Dispatcher } from "./state";
+import { Dispatcher, State } from "./state";
 
-// const client = new Discord.Client({
-//   syncStatus: false,
-// });
-
-// const r = new Discord.RichPresence()
-// .setApplicationId("1128372775841702039")
-// .setType("PLAYING")
-// .setURL("https://iame.li")
-// .setName("🔴 LIVE on Livepeer")
-// .setState("🔴 LIVE on Livepeer")
-// .setDetails("Livepeer in a Box")
-// .setStartTimestamp(Date.now())
-// .setAssetsLargeImage("1128374507221024778")
-// .setAssetsLargeText("livepeer")
-// .setAssetsSmallImage("1128374507221024778")
-// .setAssetsSmallText("livepeer")
-// .addButton("Watch Stream", "https://iame.li/")
-// .addButton("Join Chat", "https://chat.iame.li/");
-// client.user.setActivity(r);
-
-// client.on("error", (err: Error) => {
-//   console.error(`error: ${err}`);
-// });
-
-export default ({ dispatch }: { dispatch: Dispatcher }) => {
+export default ({
+  dispatch,
+  state,
+}: {
+  dispatch: Dispatcher;
+  state: State;
+}) => {
   // const [status, setStatus] = useState();
   useEffect(() => {
     console.log();
@@ -40,13 +22,23 @@ export default ({ dispatch }: { dispatch: Dispatcher }) => {
   }, []);
   return (
     <div>
-      <h3>selfbot</h3>
+      <h3>Selfbot</h3>
+      <p>Status: {state.selfbot.status}</p>
       <button
+        disabled={!state.selfbot.ready}
         onClick={() => {
           dispatch.selfbotStart();
         }}
       >
-        Send
+        Start
+      </button>
+      <button
+        disabled={!state.selfbot.ready}
+        onClick={() => {
+          dispatch.selfbotStop();
+        }}
+      >
+        Stop
       </button>
     </div>
   );
