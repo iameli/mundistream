@@ -42,6 +42,12 @@ export const dispatcher = (send: (action: Action) => void) => {
   };
   return {
     ready: () => sendTime({ type: READY }),
+    goLive: () => {
+      const time = Date.now();
+      send({ type: BLUESKY_POST, time: time });
+      send({ type: DISCORD_BLAST, time: time });
+      send({ type: SELFBOT_START, time: time });
+    },
     postText: (text: string) => sendTime({ type: POST_TEXT, text: text }),
     discordBlast: () => sendTime({ type: DISCORD_BLAST }),
     blueskyPost: () => sendTime({ type: BLUESKY_POST }),

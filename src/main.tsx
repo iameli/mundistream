@@ -32,6 +32,9 @@ export default () => {
               dispatch.postText(e.target.value);
             }}
           />
+          <button className="big-red-button" onClick={() => dispatch.goLive()}>
+            GO LIVE
+          </button>
           <Selfbot dispatch={dispatch} state={state} />
           <h4>Discord</h4>
           <p>@everyone: 🔴LIVE https://iame.li {state.postText}</p>

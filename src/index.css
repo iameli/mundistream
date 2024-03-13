@@ -48,3 +48,12 @@ pre {
   overflow-x: hidden;
   overflow-y: scroll;
 }
+
+.big-red-button {
+  display: block;
+  background-color: red;
+  color: white;
+  font-size: 3em;
+  padding: 0.2em;
+  margin: 0.2em auto;
+}
