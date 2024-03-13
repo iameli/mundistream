@@ -21,12 +21,42 @@ export default () => {
     return <div>loading...</div>;
   }
   return (
-    <div>
-      <h1>Mundistream 3.0</h1>
-      <Selfbot dispatch={dispatch} state={state} />
-      <pre>
-        <code>{JSON.stringify(state, null, 2)}</code>
-      </pre>
-    </div>
+    <>
+      <div className="columns">
+        <div className="left">
+          <h1>Mundistream 3.0</h1>
+          <p>Text:</p>
+          <textarea
+            value={state.postText}
+            onChange={(e) => {
+              dispatch.postText(e.target.value);
+            }}
+          />
+          <Selfbot dispatch={dispatch} state={state} />
+          <h4>Discord</h4>
+          <p>@everyone: 🔴LIVE https://iame.li {state.postText}</p>
+          <button
+            onClick={(e) => {
+              dispatch.discordBlast();
+            }}
+          >
+            Discord Blast
+          </button>
+          <h4>Bluesky</h4>
+          <p>
+            🔴LIVE <a href="https://iame.li">iame.li</a> {state.postText}
+          </p>
+        </div>
+        <pre className="right">
+          <code>
+            {JSON.stringify(
+              { ...state, actions: state.actions.reverse() },
+              null,
+              2
+            )}
+          </code>
+        </pre>
+      </div>
+    </>
   );
 };
