@@ -46,6 +46,13 @@ export default () => {
           <p>
             🔴LIVE <a href="https://iame.li">iame.li</a> {state.postText}
           </p>
+          <button
+            onClick={(e) => {
+              dispatch.blueskyPost();
+            }}
+          >
+            Post to Bluesky
+          </button>
         </div>
         <pre className="right">
           <code>

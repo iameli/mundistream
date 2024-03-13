@@ -4,6 +4,8 @@ export const POST_TEXT = "POST_TEXT";
 
 export const DISCORD_BLAST = "DISCORD_BLAST";
 
+export const BLUESKY_POST = "BLUESKY_POST";
+
 export const SELFBOT_START = "SELFBOT_START";
 export const SELFBOT_START_DONE = "SELFBOT_START_DONE";
 export const SELFBOT_STOP = "SELFBOT_STOP";
@@ -42,6 +44,7 @@ export const dispatcher = (send: (action: Action) => void) => {
     ready: () => sendTime({ type: READY }),
     postText: (text: string) => sendTime({ type: POST_TEXT, text: text }),
     discordBlast: () => sendTime({ type: DISCORD_BLAST }),
+    blueskyPost: () => sendTime({ type: BLUESKY_POST }),
     selfbotStart: () => sendTime({ type: SELFBOT_START }),
     selfbotStartDone: () => sendTime({ type: SELFBOT_START_DONE }),
     selfbotStop: () => sendTime({ type: SELFBOT_STOP }),
