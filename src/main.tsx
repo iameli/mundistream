@@ -37,7 +37,7 @@ export default () => {
           </button>
           <Selfbot dispatch={dispatch} state={state} />
           <h4>Discord</h4>
-          <p>@everyone: 🔴LIVE https://iame.li {state.postText}</p>
+          <p>@everyone: 🔴LIVE https://aquareum.tv {state.postText}</p>
           <button
             onClick={(e) => {
               dispatch.discordBlast();
@@ -47,7 +47,8 @@ export default () => {
           </button>
           <h4>Bluesky</h4>
           <p>
-            🔴LIVE <a href="https://iame.li">iame.li</a> {state.postText}
+            🔴LIVE <a href="https://aquareum.tv">aquareum.tv</a>{" "}
+            {state.postText}
           </p>
           <button
             onClick={(e) => {

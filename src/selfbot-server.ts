@@ -41,8 +41,8 @@ export const selfbot = (dispatch: Dispatcher) => {
         .setApplicationId("1128372775841702039")
         .setType("PLAYING")
         .setName("Testing rich status")
-        .setURL("https://iame.li")
-        .setName("🔴 LIVE on iame.li")
+        .setURL("https://aquareum.tv")
+        .setName("🔴 LIVE on aquareum.tv")
         // .setName("testing rich presence")
         .setDetails(first)
         .setState(second)
@@ -51,7 +51,7 @@ export const selfbot = (dispatch: Dispatcher) => {
         .setAssetsLargeText("livepeer")
         .setAssetsSmallImage("1128374507221024778")
         .setAssetsSmallText("livepeer")
-        .addButton("Watch Stream", "https://iame.li/")
+        .addButton("Watch Stream", "https://aquareum.tv/")
         .addButton("Join Chat", "https://chat.iame.li/");
       (r as any).metadata.button_url = (r as any).metadata.button_urls;
       (r as any).metadata.album_id = "lol";

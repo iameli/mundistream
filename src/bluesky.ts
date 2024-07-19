@@ -9,10 +9,10 @@ const agent = new BskyAgent({
 });
 
 const PREFIX = `🔴 LIVE `;
-const URL = "iame.li";
+const URL = "aquareum.tv";
 
 export default async function bluesky(message: string, time: number) {
-  const url = `https://iame.li/#${time}`;
+  const url = `https://aquareum.tv/#${time}`;
   const content = `${PREFIX}${URL} ${message}`.slice(0, 300);
   await agent.login({
     identifier: process.env.MUNDISTREAM_BLUESKY_USER!,

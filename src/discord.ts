@@ -1,9 +1,33 @@
 import { Dispatcher } from "./state";
 
 export default async function (message: string, time: number) {
-  const url = `https://iame.li/#${time}`;
-  const content = `@everyone 🔴 LIVE ${message} ${url}`;
-  const hook = {
+  const url = `https://aquareum.tv/#${time}`;
+  const hookUrls = process.env.MUNDISTREAM_DISCORD_WEBHOOK.split(",");
+  await Promise.all(
+    hookUrls.map(async (hookUrl, i) => {
+      let content = `🔴 LIVE ${message} ${url}`;
+      if (i === 0) {
+        content = `@everyone ${content}`;
+      }
+      const hook = makeHook(content, url);
+      const res = await fetch(hookUrl, {
+        method: "POST",
+        body: JSON.stringify(hook),
+        headers: {
+          "content-type": "application/json",
+        },
+      });
+      const text = await res.text();
+      // if (!res.ok) {
+      //   throw new Error(`res not ok: ${res.status} ${text}`);
+      // }
+      console.log(text);
+    })
+  );
+}
+
+const makeHook = (content: string, url: string) => {
+  return {
     username: "iame.li robot",
     avatar_url:
       "https://cdn.discordapp.com/attachments/1095419600298053644/1217278790795788449/image.png?ex=66037237&is=65f0fd37&hm=2d84605d30e2c350c5342d223bb8cbf0db4ff0eff2c788b275de22e0ea3612d4&",
@@ -53,17 +77,4 @@ export default async function (message: string, time: number) {
       },
     ],
   };
-  const res = await fetch(process.env.MUNDISTREAM_DISCORD_WEBHOOK, {
-    method: "POST",
-    body: JSON.stringify(hook),
-    headers: {
-      "content-type": "application/json",
-    },
-  });
-  const text = await res.text();
-  if (!res.ok) {
-    throw new Error(`res not ok: ${res.status} ${text}`);
-  }
-  console.log(text);
-  return text;
-}
+};
