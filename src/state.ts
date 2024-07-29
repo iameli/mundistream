@@ -6,6 +6,8 @@ export const DISCORD_BLAST = "DISCORD_BLAST";
 
 export const BLUESKY_POST = "BLUESKY_POST";
 
+export const AQUAREUM_PUSH = "AQUAREUM_PUSH"
+
 export const SELFBOT_START = "SELFBOT_START";
 export const SELFBOT_START_DONE = "SELFBOT_START_DONE";
 export const SELFBOT_STOP = "SELFBOT_STOP";
@@ -47,6 +49,7 @@ export const dispatcher = (send: (action: Action) => void) => {
       send({ type: BLUESKY_POST, time: time });
       send({ type: DISCORD_BLAST, time: time });
       send({ type: SELFBOT_START, time: time });
+      send({ type: AQUAREUM_PUSH, time: time });
     },
     postText: (text: string) => sendTime({ type: POST_TEXT, text: text }),
     discordBlast: () => sendTime({ type: DISCORD_BLAST }),
@@ -57,6 +60,7 @@ export const dispatcher = (send: (action: Action) => void) => {
     selfbotStopDone: () => sendTime({ type: SELFBOT_STOP_DONE }),
     selfbotReady: () => sendTime({ type: SELFBOT_READY }),
     selfbotError: () => sendTime({ type: SELFBOT_ERROR }),
+    aquareumPush: () => sendTime({ type: AQUAREUM_PUSH }),
   };
 };
 export type Dispatcher = ReturnType<typeof dispatcher>;

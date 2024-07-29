@@ -1,7 +1,7 @@
 import { Dispatcher } from "./state";
 
 export default async function (message: string, time: number) {
-  const url = `https://aquareum.tv/#${time}`;
+  const url = `https://aquareum.tv/?stream=@iame.li&time=${time}`;
   const hookUrls = process.env.MUNDISTREAM_DISCORD_WEBHOOK.split(",");
   await Promise.all(
     hookUrls.map(async (hookUrl, i) => {

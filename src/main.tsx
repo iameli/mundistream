@@ -36,6 +36,15 @@ export default () => {
             GO LIVE
           </button>
           <Selfbot dispatch={dispatch} state={state} />
+          <h4>Aquareum Push</h4>
+          <p>🔴 @iame.li is LIVE {state.postText}</p>
+          <button
+            onClick={(e) => {
+              dispatch.aquareumPush();
+            }}
+          >
+            Aquareum Push
+          </button>
           <h4>Discord</h4>
           <p>@everyone: 🔴LIVE https://aquareum.tv {state.postText}</p>
           <button
